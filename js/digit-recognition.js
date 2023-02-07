@@ -3,13 +3,13 @@
 //-------------------
 let model;
 
-var canvasWidth           	= 150;
-var canvasHeight 			= 150;
-var canvasStrokeStyle		= "white";
-var canvasLineJoin			= "round";
-var canvasLineWidth       	= 10;
-var canvasBackgroundColor 	= "black";
-var canvasId              	= "canvas";
+var canvasWidth = 175;
+var canvasHeight = 175;
+var canvasStrokeStyle = "#64ffda";
+var canvasLineJoin = "round";
+var canvasLineWidth = 10;
+var canvasBackgroundColor = "#0a192f";
+var canvasId = "canvas";
 
 var clickX = new Array();
 var clickY = new Array();
@@ -23,15 +23,15 @@ document.getElementById('chart_box').style.display = "none";
 // Create canvas
 //---------------
 var canvasBox = document.getElementById('canvas_box');
-var canvas    = document.createElement("canvas");
+var canvas = document.createElement("canvas");
 
 canvas.setAttribute("width", canvasWidth);
 canvas.setAttribute("height", canvasHeight);
 canvas.setAttribute("id", canvasId);
 canvas.style.backgroundColor = canvasBackgroundColor;
 canvasBox.appendChild(canvas);
-if(typeof G_vmlCanvasManager != 'undefined') {
-  canvas = G_vmlCanvasManager.initElement(canvas);
+if (typeof G_vmlCanvasManager != 'undefined') {
+	canvas = G_vmlCanvasManager.initElement(canvas);
 }
 
 ctx = canvas.getContext("2d");
@@ -40,10 +40,10 @@ ctx = canvas.getContext("2d");
 //---------------------
 // MOUSE DOWN function
 //---------------------
-$("#canvas").mousedown(function(e) {
+$("#canvas").mousedown(function (e) {
 	var rect = canvas.getBoundingClientRect();
-	var mouseX = e.clientX- rect.left;;
-	var mouseY = e.clientY- rect.top;
+	var mouseX = e.clientX - rect.left;;
+	var mouseY = e.clientY - rect.top;
 	drawing = true;
 	addUserGesture(mouseX, mouseY);
 	drawOnCanvas();
@@ -54,8 +54,8 @@ $("#canvas").mousedown(function(e) {
 //-----------------------
 canvas.addEventListener("touchstart", function (e) {
 	if (e.target == canvas) {
-    	e.preventDefault();
-  	}
+		e.preventDefault();
+	}
 
 	var rect = canvas.getBoundingClientRect();
 	var touch = e.touches[0];
@@ -72,11 +72,11 @@ canvas.addEventListener("touchstart", function (e) {
 //---------------------
 // MOUSE MOVE function
 //---------------------
-$("#canvas").mousemove(function(e) {
-	if(drawing) {
+$("#canvas").mousemove(function (e) {
+	if (drawing) {
 		var rect = canvas.getBoundingClientRect();
-		var mouseX = e.clientX- rect.left;;
-		var mouseY = e.clientY- rect.top;
+		var mouseX = e.clientX - rect.left;;
+		var mouseY = e.clientY - rect.top;
 		addUserGesture(mouseX, mouseY, true);
 		drawOnCanvas();
 	}
@@ -87,9 +87,9 @@ $("#canvas").mousemove(function(e) {
 //---------------------
 canvas.addEventListener("touchmove", function (e) {
 	if (e.target == canvas) {
-    	e.preventDefault();
-  	}
-	if(drawing) {
+		e.preventDefault();
+	}
+	if (drawing) {
 		var rect = canvas.getBoundingClientRect();
 		var touch = e.touches[0];
 
@@ -104,7 +104,7 @@ canvas.addEventListener("touchmove", function (e) {
 //-------------------
 // MOUSE UP function
 //-------------------
-$("#canvas").mouseup(function(e) {
+$("#canvas").mouseup(function (e) {
 	drawing = false;
 });
 
@@ -113,15 +113,15 @@ $("#canvas").mouseup(function(e) {
 //---------------------
 canvas.addEventListener("touchend", function (e) {
 	if (e.target == canvas) {
-    	e.preventDefault();
-  	}
+		e.preventDefault();
+	}
 	drawing = false;
 }, false);
 
 //----------------------
 // MOUSE LEAVE function
 //----------------------
-$("#canvas").mouseleave(function(e) {
+$("#canvas").mouseleave(function (e) {
 	drawing = false;
 });
 
@@ -130,8 +130,8 @@ $("#canvas").mouseleave(function(e) {
 //-----------------------
 canvas.addEventListener("touchleave", function (e) {
 	if (e.target == canvas) {
-    	e.preventDefault();
-  	}
+		e.preventDefault();
+	}
 	drawing = false;
 }, false);
 
@@ -151,15 +151,15 @@ function drawOnCanvas() {
 	ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
 	ctx.strokeStyle = canvasStrokeStyle;
-	ctx.lineJoin    = canvasLineJoin;
-	ctx.lineWidth   = canvasLineWidth;
+	ctx.lineJoin = canvasLineJoin;
+	ctx.lineWidth = canvasLineWidth;
 
 	for (var i = 0; i < clickX.length; i++) {
 		ctx.beginPath();
-		if(clickD[i] && i) {
-			ctx.moveTo(clickX[i-1], clickY[i-1]);
+		if (clickD[i] && i) {
+			ctx.moveTo(clickX[i - 1], clickY[i - 1]);
 		} else {
-			ctx.moveTo(clickX[i]-1, clickY[i]);
+			ctx.moveTo(clickX[i] - 1, clickY[i]);
 		}
 		ctx.lineTo(clickX[i], clickY[i]);
 		ctx.closePath();
@@ -171,7 +171,7 @@ function drawOnCanvas() {
 // CLEAR CANVAS function
 //------------------------
 $("#clear-button").click(async function () {
-    ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+	ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 	clickX = new Array();
 	clickY = new Array();
 	clickD = new Array();
@@ -183,15 +183,15 @@ $("#clear-button").click(async function () {
 // loader for cnn model
 //-------------------------------------
 async function loadModel() {
-  console.log("model loading..");
+	console.log("model loading..");
 
-  // clear the model variable
-  model = undefined;
-  
-  // load the model using a HTTPS request (where you have stored your model files)
-  model = await tf.loadLayersModel("models/model.json");
-  
-  console.log("model loaded..");
+	// clear the model variable
+	model = undefined;
+
+	// load the model using a HTTPS request (where you have stored your model files)
+	model = await tf.loadLayersModel("models/model.json");
+
+	console.log("model loaded..");
 }
 
 loadModel();
@@ -215,7 +215,7 @@ function preprocessCanvas(image) {
 // predict function 
 //--------------------------------------------
 $("#predict-button").click(async function () {
-    // get image data from canvas
+	// get image data from canvas
 	var imageData = canvas.toDataURL();
 
 	// preprocess canvas
@@ -243,22 +243,22 @@ var firstTime = 0;
 function loadChart(label, data, modelSelected) {
 	var ctx = document.getElementById('chart_box').getContext('2d');
 	chart = new Chart(ctx, {
-	    // The type of chart we want to create
-	    type: 'bar',
+		// The type of chart we want to create
+		type: 'bar',
 
-	    // The data for our dataset
-	    data: {
-	        labels: label,
-	        datasets: [{
-	            label: modelSelected + " prediction",
-	            backgroundColor: '#f50057',
-	            borderColor: 'rgb(255, 99, 132)',
-	            data: data,
-	        }]
-	    },
+		// The data for our dataset
+		data: {
+			labels: label,
+			datasets: [{
+				label: modelSelected + " prediction",
+				backgroundColor: '#f50057',
+				borderColor: 'rgb(255, 99, 132)',
+				data: data,
+			}]
+		},
 
-	    // Configuration options go here
-	    options: {}
+		// Configuration options go here
+		options: {}
 	});
 }
 
@@ -267,8 +267,8 @@ function loadChart(label, data, modelSelected) {
 // drawing from canvas
 //----------------------------
 function displayChart(data) {
-	var select_model  = document.getElementById("select_model");
-  	var select_option = "CNN";
+	var select_model = document.getElementById("select_model");
+	var select_option = "CNN";
 
 	label = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
 	if (firstTime == 0) {
@@ -283,14 +283,14 @@ function displayChart(data) {
 
 function displayLabel(data) {
 	var max = data[0];
-    var maxIndex = 0;
+	var maxIndex = 0;
 
-    for (var i = 1; i < data.length; i++) {
-        if (data[i] > max) {
-            maxIndex = i;
-            max = data[i];
-        }
-    }
-	$(".prediction-text").html("Predicting you draw <b>"+maxIndex+"</b> with <b>"+Math.trunc( max*100 )+"%</b> confidence")
+	for (var i = 1; i < data.length; i++) {
+		if (data[i] > max) {
+			maxIndex = i;
+			max = data[i];
+		}
+	}
+	$(".prediction-text").html("Predicting you draw <b>" + maxIndex + "</b> with <b>" + Math.trunc(max * 100) + "%</b> confidence")
 }
 
